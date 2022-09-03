@@ -10,7 +10,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import App from './components/app';
 import messagesReducer from './reducers/messages_reducer';
 
-const chatContainer = document.getElementById('chat_app');
 
 const initialState = {
   messages: [],
@@ -24,6 +23,8 @@ const reducers = combineReducers({
 
 const middlewares = applyMiddleware(logger, ReduxPromise);
 const store = createStore(reducers, initialState, middlewares);
+
+const chatContainer = document.getElementById('chat_app');
 
 ReactDOM.render(
   <Provider store={store}>

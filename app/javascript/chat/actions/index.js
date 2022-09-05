@@ -35,9 +35,16 @@ export function createMessage(channel, content) {
   };
 }
 
-// export function selectChannel(channel) {
-//   return {
-//     type: CHANNEL_SELECTED,
-//     payload: channel
-//   };
-// }
+export function selectChannel(channel) {
+  return {
+    type: CHANNEL_SELECTED,
+    payload: channel
+  };
+}
+
+export function appendMessage(message) {
+  return {
+    type: MESSAGE_POSTED,
+    payload: message
+  }
+}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { fetchMessages } from '../actions';
+import { fetchMessages, appendMessage } from '../actions';
 import Message from '../components/message';
 import MessageForm from '../containers/message_form';
 
@@ -10,6 +10,16 @@ class MessageList extends Component {
   componentWillMount() {
     this.fetchMessages();
   }
+
+  // componentDidMount() { // For the first channel
+  //   this.subscribeActionCable(this.props);
+  // }
+
+  // componentWillReceiveProps(nextProps) { // For after switching channels
+  //   if (this.props.selectedChannel != nextProps.selectedChannel) {
+  //     this.subscribeActionCable(nextProps);
+  //   }
+  // }
 
   componentDidMount() {
     // this.refresher = setInterval(this.fetchMessages, 5000);
@@ -27,6 +37,19 @@ class MessageList extends Component {
     this.props.fetchMessages(this.props.selectedChannel);
   }
 
+  // subscribeActionCable = (props) => {
+  //   App[`channel_${props.selectedChannel}`] = App.cable.subscriptions.create(
+  //     { channel: 'ChannelsChannel', name: props.selectedChannel },
+  //     {
+  //       received: (message) => {
+  //         if (message.channel === props.selectedChannel) {
+  //           props.appendMessage(message);
+  //         }
+  //       }
+  //     }
+  //   );
+  // }
+
   render () {
     return (
       <div className="channel-container">
@@ -40,7 +63,7 @@ class MessageList extends Component {
             })
           }
         </div>
-        <MessageForm />
+        <MessageForm selectedChannel={this.props.selectedChannel} />
       </div>
     );
   }
@@ -48,13 +71,12 @@ class MessageList extends Component {
 
 function mapStateToProps(state) {
   return {
-    messages: state.messages,
-    selectedChannel: state.selectedChannel
+    messages: state.messages
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchMessages }, dispatch);
+  return bindActionCreators({ fetchMessages, appendMessage }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageList);

@@ -10,10 +10,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import App from './components/app';
 import messagesReducer from './reducers/messages_reducer';
 
+const chatContainer = document.getElementById('chat_app');
 
 const initialState = {
   messages: [],
-  channels: ['general', 'react', 'paris'], // TODO: get that from Rails DB.
+  channels: JSON.parse(chatContainer.dataset.channels).map(c => c.name) // TODO: get that from Rails DB.
 };
 
 const reducers = combineReducers({
@@ -24,7 +25,6 @@ const reducers = combineReducers({
 const middlewares = applyMiddleware(logger, ReduxPromise);
 const store = createStore(reducers, initialState, middlewares);
 
-const chatContainer = document.getElementById('chat_app');
 
 ReactDOM.render(
   <Provider store={store}>
